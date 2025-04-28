@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Распознавание животных</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Montserrat и Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap"
+          rel="stylesheet">
+    <style>
+        body {
+          background-color: #f0f2f5;
+          font-family: 'Roboto', sans-serif;
+          color: #333;
+        }
+        .hero-section {
+          text-align: center;
+          padding: 60px 0;
+          background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+        .hero-section h1 {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 3rem;
+          color: #1e3a8a;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .description-block {
+          background-color: #ffffff;
+          border-radius: 15px;
+          padding: 30px;
+          margin: 30px auto;
+          max-width: 900px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+          animation: fadeIn 1s ease-in;
+        }
+        .description-block h3 {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          color: #1e3a8a;
+          margin-bottom: 15px;
+        }
+        .description-block p {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          color: #4b5563;
+        }
+        .gallery img {
+          width: 100%;
+          height: 160px;
+          object-fit: cover;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: transform 0.3s, box-shadow 0.3s;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .gallery img:hover {
+          transform: scale(1.08);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+          background: linear-gradient(45deg, #3b82f6, #60a5fa);
+          border: none;
+          border-radius: 10px;
+          padding: 12px 24px;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #result-block {
+          display: none;
+          background-color: #ffffff;
+          border-radius: 15px;
+          padding: 30px;
+          margin: 30px auto;
+          max-width: 900px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+          animation: fadeIn 1s ease-in;
+        }
+        #result-block h4 {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          color: #1e3a8a;
+        }
+        #loading-message {
+          display: none;
+          text-align: center;
+          margin: 30px 0;
+          font-family: 'Roboto', sans-serif;
+          font-size: 1.2rem;
+          color: #4b5563;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<!-- Заголовок -->
+<div class="hero-section">
+    <h1>Распознавание животных</h1>
+</div>
+
+<!-- Блок с описанием -->
+<div class="description-block">
+    <h3>Добро пожаловать!</h3>
+    <p>
+        Наш искусственный интеллект умеет распознавать множество животных: собак, кошек, лошадей, коров и многих других.
+        Загрузите свое изображение или выберите одно из примеров ниже, чтобы узнать, какое животное на нем изображено!
+    </p>
+</div>
+
+<!-- Секция загрузки и галереи -->
+<div class="container">
+    <div class="text-center mb-5">
+        <input type="file" id="imageUpload" accept="image/*" class="d-none">
+        <button class="btn btn-primary btn-lg" onclick="document.getElementById('imageUpload').click()">
+            Загрузить изображение
+        </button>
+    </div>
+
+    <h4 class="text-center mb-4" style="font-family: 'Montserrat', sans-serif; color: #1e3a8a;">Или выберите пример</h4>
+    <h1>Галерея животных</h1>
+    <div class="row gallery">
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://media.istockphoto.com/id/1503385646/ru/%D1%84%D0%BE%D1%82%D0%BE/%D0%BF%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82-%D0%B7%D0%B0%D0%B1%D0%B0%D0%B2%D0%BD%D0%BE%D0%B3%D0%BE-%D0%B8-%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D0%BE%D0%B3%D0%BE-%D1%89%D0%B5%D0%BD%D0%BA%D0%B0-%D1%81%D0%B8%D0%B1%D0%B0-%D0%B8%D0%BD%D1%83-%D0%B2%D1%8B%D0%B3%D0%BB%D1%8F%D0%B4%D1%8B%D0%B2%D0%B0%D1%8E%D1%89%D0%B5%D0%B3%D0%BE-%D0%B8%D0%B7-%D0%B7%D0%B0-%D1%81%D0%B8%D0%BD%D0%B5%D0%B3%D0%BE-%D0%B1%D0%B0%D0%BD%D0%BD%D0%B5%D1%80%D0%B0.jpg?s=612x612&w=0&k=20&c=tXVz8SdX2GyvL2zsxJ649hjrasFtALHezODBhDQ943s=" alt="Собака" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://i.pinimg.com/736x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg" alt="Собака" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://centro.press/files/news/516/img/samye-milye-porody-sobak-primery-i-opisanie-centro-press.jpg" alt="Собака" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Redhead_Cat_%28%D0%A0%D1%8B%D0%B6%D0%B8%D0%B9_%D0%9A%D0%BE%D1%82%29.jpg/1599px-Redhead_Cat_%28%D0%A0%D1%8B%D0%B6%D0%B8%D0%B9_%D0%9A%D0%BE%D1%82%29.jpg" alt="Кошка" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://s3.stroi-news.ru/img/kartinki-krasivikh-loshadei-7.jpg" alt="Лошадь" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://i.pinimg.com/736x/f4/9e/9f/f49e9f593085b894e9e41ad8e73aa37e.jpg" alt="Корова" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://www.ucdavis.edu/sites/default/files/media/images/Sheep-work-main.jpg" alt="Овца" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/053/186/085/small_2x/starry-night-butterfly-perched-on-a-tree-photo.jpg" alt="Бабочка" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://ferma-m2.ru/images/news/news_list_big/crop_1_1_2.jpg" alt="Курица" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://fenolog.rgo.ru/sites/default/files/styles/full_width/public/user/7286/elephant-114543960720.jpg?itok=TFzOicDs" alt="Слон" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://s0.rbk.ru/v6_top_pics/media/img/0/21/347182849059210.webp" alt="Паук" onclick="processExampleImage(this.src)">
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+            <img src="https://media.izi.travel/042f9c2d-ae42-4537-9bc3-0d8912869fba/5c50daf8-68c7-41ab-b3d0-9c293b9c7221_800x600.jpg" alt="Белка" onclick="processExampleImage(this.src)">
+        </div>
+    </div>
+</div>
+
+<!-- Сообщение о загрузке -->
+<div id="loading-message">
+    <h4>Обработка изображения, подождите...</h4>
+</div>
+
+<!-- Блок результата -->
+<div id="result-block">
+    <h4>Спасибо за ваше изображение!</h4>
+    <p id="result-text"></p>
+    <div class="text-center">
+        <button class="btn btn-primary" onclick="resetPage()">Попробовать другое</button>
+    </div>
+</div>
+
+<!-- Bootstrap JS и Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Обработка загрузки файла
+    document.getElementById('imageUpload').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        await processImage(file);
+      }
+    });
+
+    // Обработка примера изображения
+    async function processExampleImage(imageUrl) {
+      showLoading();
+      try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const file = new File([blob], 'example.jpg', { type: blob.type });
+        await processImage(file);
+      } catch (error) {
+        showError('Не удалось обработать пример изображения.');
+      }
+    }
+
+    // Обработка изображения: конвертация в base64 и отправка в /what_is_animal
+    async function processImage(file) {
+    showLoading();
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const base64Response = await fetch('http://localhost:8000/image_to_base64', {
+            method: 'POST',
+            body: formData
+        });
+        const base64Data = await base64Response.json();
+        const base64String = base64Data.base64_image;
+
+        const payload = {
+            user_id: '123e4567-e89b-12d3-a456-426614174000',
+            query: 'Какое это животное?',
+            timestamp: new Date().toISOString(),
+            image: base64String
+        };
+        const animalResponse = await fetch('http://localhost:8000/what_is_animal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const animalData = await animalResponse.json();
+        console.log("API response:", animalData); // Для отладки
+
+        // Извлекаем название животного из similarities или answer
+        let animalName = 'неизвестное животное';
+        if (animalData.similarities && animalData.similarities.length > 0) {
+            animalName = animalData.similarities[0].metadata.animal_name || animalName;
+        } else if (animalData.answer) {
+            // Извлекаем первое слово после "вероятно," из answer
+            const match = animalData.answer.match(/вероятно,\s*([а-яА-Яa-zA-Z]+)/);
+            if (match) animalName = match[1];
+        }
+
+        // Используем описание из similarities или answer
+        const description = animalData.similarities?.[0]?.description || animalData.answer || 'Это определено на основе визуальных признаков изображения.';
+
+        showResult(`Скорее всего, это ${animalData.animal || 'неизвестное животное'}. ${animalData.description || 'Это определено на основе визуальных признаков изображения.'}`);
+    } catch (error) {
+        console.error("Error:", error);
+        showError('Не удалось обработать изображение.');
+    }
+}
+
+    // Показать сообщение о загрузке
+    function showLoading() {
+      document.getElementById('loading-message').style.display = 'block';
+      document.getElementById('result-block').style.display = 'none';
+      document.querySelector('.container').style.display = 'none';
+    }
+
+    // Показать результат
+    function showResult(message) {
+      document.getElementById('loading-message').style.display = 'none';
+      document.getElementById('result-block').style.display = 'block';
+      document.getElementById('result-text').textContent = message;
+      document.querySelector('.container').style.display = 'none';
+    }
+
+    // Показать ошибку
+    function showError(message) {
+      document.getElementById('loading-message').style.display = 'none';
+      document.getElementById('result-block').style.display = 'block';
+      document.getElementById('result-text').textContent = 'Ошибка: ' + message;
+      document.querySelector('.container').style.display = 'none';
+    }
+
+    // Сброс страницы
+    function resetPage() {
+      document.getElementById('loading-message').style.display = 'none';
+      document.getElementById('result-block').style.display = 'none';
+      document.querySelector('.container').style.display = 'block';
+      document.getElementById('imageUpload').value = '';
+    }
+</script>
+</body>
+</html>

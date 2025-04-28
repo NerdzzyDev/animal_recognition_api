@@ -1,0 +1,43 @@
+[project]
+name = "animal-recognition-api"
+version = "1.0.0"
+description = "API для распознавания животных на изображениях с использованием CLIP, Qdrant и Ollama."
+dependencies = [
+    "fastapi==0.104.1",
+    "uvicorn==0.24.0",
+    "pydantic==2.5.2",
+    "pillow==10.0.0",
+    "qdrant-client==1.12.0",
+    "starlette==0.27.0",
+    "jinja2==3.1.2",
+    "python-multipart==0.0.12",
+    "transformers==4.44.2",
+    "torch==2.4.1",
+    "ollama==0.3.3",
+    "numpy==1.26.4",
+    "tqdm==4.66.5",
+    "torchvision==0.19.1",
+    "openai-clip==1.0.1"
+
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==7.4.0",
+    "pytest-asyncio==0.21.1",
+    "httpx==0.27.0",
+    "pytest-mock==3.11.1",
+    "pytest-cov==4.1.0"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+python_classes = ["Test*"]
+log_cli = true
+log_cli_level = "INFO"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests"
+]

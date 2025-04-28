@@ -1,0 +1,1 @@
+from .animal_recognition import AnimalRecognitionService
