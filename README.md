@@ -183,6 +183,5 @@ docker-compose logs fastapi
 ## Лицензия
 MIT License. См. [LICENSE](LICENSE) для подробностей.
 
-## Контакты
-Для вопросов и предложений: [your-email@example.com](mailto:your-email@example.com).
+
 
